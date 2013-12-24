@@ -20,3 +20,8 @@ DerivedData
 
 #CocoaPods
 Pods
+
+#theos
+*/_/*
+*/.theos/*
+*/obj/*
