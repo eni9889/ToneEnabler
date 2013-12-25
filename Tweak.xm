@@ -5,6 +5,8 @@
 //  Copyright 2013 UnlimApps Inc. All rights reserved.
 //
 
+#import <ToneKit/TKToneTableController.h>
+
 %hook TKToneTableController
 
 - (id)loadRingtonesFromPlist
@@ -17,7 +19,7 @@
     NSString *tonesDirectory = @"/Library/Ringtones";
 	NSFileManager *localFileManager = [[NSFileManager alloc] init];
 	NSDirectoryEnumerator *dirEnum  = [localFileManager enumeratorAtPath:tonesDirectory];
-    
+
 	NSString *file;
 	while ((file = [dirEnum nextObject]))
 	{
