@@ -1,0 +1,8 @@
+{
+	Filter = {
+		Bundles = (
+			"com.apple.ToneKit",
+			"com.apple.UIKit",
+		);
+	};
+}

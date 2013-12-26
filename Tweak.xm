@@ -39,6 +39,6 @@
     [allRingtones setObject:classicRingtones forKey:@"classic"];
     [allRingtones setObject:modernRingtones  forKey:@"modern"];
 
-    return [self _loadTonesFromPlistDictionary:allRingtones];
+    return allRingtones;
 }
 %end
