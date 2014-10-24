@@ -1,12 +1,12 @@
 export ARCHS = armv7 armv7s arm64
-export TARGET_IPHONEOS_DEPLOYMENT_VERSION = 7.0
-export TARGET_IPHONEOS_DEPLOYMENT_VERSION_arm64 = 7.0
-#export THEOS_DEVICE_IP=192.168.1.20
 export GO_EASY_ON_ME=1
 export SHARED_CFLAGS = -fobjc-arc
 export ADDITIONAL_OBJCFLAGS = -fobjc-arc
+export TARGET=iphone:clang:latest:6.0
 
 include theos/makefiles/common.mk
+
+THEOS_BUILD_DIR = Packages
 
 TWEAK_NAME = ToneEnabler
 ToneEnabler_FRAMEWORKS = Foundation UIKit
