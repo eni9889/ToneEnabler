@@ -1,0 +1,10 @@
+{
+	Filter = {
+		Executables = ("Preferences");
+		Bundles = (
+			"com.apple.ToneKit",
+			"com.apple.UIKit",
+		);
+		Mode = "Any";
+	};
+}
