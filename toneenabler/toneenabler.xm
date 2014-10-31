@@ -7,10 +7,13 @@
 
 #import <UIKit/UIKit.h>
 #import "UAAdView.h"
+#include "stdio.h"
+#include "dlfcn.h"
 
 #define kWebViewTag 232343
 
-@interface TKTonePickerViewController : UITableViewController
+@interface TKTonePickerViewController : UITableViewController <UAAdViewDelegate>
+-(UAAdView *)getAdView;
 @end
 
 @interface SoundsPrefController : UIViewController <UAAdViewDelegate>
@@ -162,16 +165,67 @@
 
 %end
 
+%hook TKTonePickerViewController
+%new
+-(UAAdView *)getAdView {
+    %log;
+    if ([self.tableView.superview viewWithTag:kWebViewTag]) {
+        return (UAAdView *)[self.tableView.tableHeaderView viewWithTag:kWebViewTag];
+    } else {
+        //get the appropriate height
+        
+        //create the ad view
+        UAAdView *adView = [[UAAdView alloc] initWithAdUnitId:@"a6f62f5236a64524804f73cf17e47a75" size:MOPUB_BANNER_SIZE];
+        
+        adView.delegate = self;
+        adView.tag = kWebViewTag;
+        CGSize size = [adView adContentViewSize];
+        adView.frame = CGRectMake( (self.tableView.frame.size.width - size.width) / 2.0f , 0, size.width, size.height);
+        
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - size.height, self.tableView.frame.size.width, size.height)];
+        [headerView addSubview:adView];
+        
+        [self.tableView.superview addSubview:headerView];
+        
+        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.tableView.scrollIndicatorInsets.top, self.tableView.scrollIndicatorInsets.left, size.height + 2.0f, self.tableView.scrollIndicatorInsets.right);
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, self.tableView.contentInset.left, size.height - 10.0f, self.tableView.contentInset.right);
+        
+        return adView;
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    %log;
+    %orig;
+    [[self getAdView] loadAd];
+}
+
+#pragma mark - <MPAdViewDelegate>
+%new
+- (UIViewController *)viewControllerForPresentingModalView {
+    return self;
+}
+%end
+
 %end //End Common
 
+#define XPCObjects "/System/Library/PrivateFrameworks/ToneKit.framework/ToneKit"
+
 %ctor {
+    
+    if (!NSClassFromString(@"TKTonePickerController") && !NSClassFromString(@"TKToneTableController")) {
+        //load the framework if it does not exist
+        dlopen(XPCObjects, RTLD_LAZY);
+    }
+    
     %init(COMMON);
-    Class klass = NSClassFromString(@"TKTonePickerController");
-    if (klass) {
+    
+    if (NSClassFromString(@"TKTonePickerController")) {
         NSLog(@"ToneEnabler iOS 8");
         %init(IOS8);
-    } else {
+    } else if (NSClassFromString(@"TKToneTableController")) {
         NSLog(@"ToneEnabler iOS 7");
         %init(IOS7);
     }
+    
 }
