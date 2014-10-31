@@ -1,8 +1,7 @@
 {
 	Filter = {
-		Bundles = (
-			"com.apple.ToneKit",
-			"com.apple.UIKit",
-		);
+		Executables = ("Preferences");
+		Bundles = ("com.apple.ToneKit");
+		Mode = "Any";
 	};
 }

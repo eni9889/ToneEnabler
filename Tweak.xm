@@ -5,6 +5,15 @@
 //  Copyright 2013 UnlimApps Inc. All rights reserved.
 //
 
+#define kWebViewTag 232343
+
+@interface TKTonePickerViewController : UITableViewController
+@end
+
+@interface SoundsPrefController : UIViewController
+@property (nonatomic, strong) UITableView *table;
+@end
+
 %group IOS7
 
 %hook TKToneTableController
@@ -47,6 +56,45 @@
 %end
 
 %group IOS8
+
+%hook SoundsPrefController
+
+%new
+
+-(void)viewDidLoad {
+    %log;
+    %orig;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    %log;
+    %orig;
+    if (self.table.tableHeaderView && [self.table.tableHeaderView viewWithTag:kWebViewTag]) {
+        UIWebView *webView = (UIWebView *)[self.table.tableHeaderView viewWithTag:kWebViewTag];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://unlimapps.com/tone_enabler_ads.php"]]];
+    } else {
+        CGFloat height = (self.table.frame.size.width * 50.0f) / 320.0f;
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.table.frame.size.width, height)];
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.table.frame.size.width, height)];
+        webView.tag = kWebViewTag;
+        [headerView addSubview:webView];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://unlimapps.com/tone_enabler_ads.php"]]];
+        self.table.tableHeaderView = headerView;
+    }
+}
+%end
+
+%hook TKTonePickerViewController
+-(void)viewDidLoad {
+    %log;
+    %orig;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    %log;
+    %orig;
+}
+%end
 
 %hook TKTonePickerController
 

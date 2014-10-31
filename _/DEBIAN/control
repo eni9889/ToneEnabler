@@ -6,5 +6,5 @@ Description: In iOS 7.x/8.x apple uses a plist in order to load ringtones in set
 Maintainer: UnlimApps Inc.
 Author: UnlimApps Inc.
 Section: Tweaks
-Version: 1.0.0-2
-Installed-Size: 88
+Version: 1.0.0-23
+Installed-Size: 120
