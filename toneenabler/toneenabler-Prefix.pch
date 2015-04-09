@@ -3,5 +3,30 @@
 //
 
 #ifdef __OBJC__
-    #import <Foundation/Foundation.h>
+
+#import <Foundation/Foundation.h>
+
+#define __CCLOGWITHFUNCTION(s, ...) \
+NSLog(@"%s : %@",__FUNCTION__,[NSString stringWithFormat:(s), ##__VA_ARGS__])
+
+#define __CCLOG(s, ...) \
+NSLog(@"%@",[NSString stringWithFormat:(s), ##__VA_ARGS__])
+
+
+#if !defined(DEBUG) || DEBUG == 0
+#define CCLOG(...) do {} while (0)
+#define CCLOGWARN(...) do {} while (0)
+#define CCLOGINFO(...) do {} while (0)
+
+#elif DEBUG == 1
+#define CCLOG(...) __CCLOG(__VA_ARGS__)
+#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGINFO(...) do {} while (0)
+
+#elif DEBUG > 1
+#define CCLOG(...) __CCLOG(__VA_ARGS__)
+#define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
+#define CCLOGINFO(...) __CCLOG(__VA_ARGS__)
+#endif // DEBUG
+
 #endif
