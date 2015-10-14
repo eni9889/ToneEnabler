@@ -277,7 +277,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp\n#lets hack this shit into going into the beta server\ncd \"$PROJECT_DIR/Packages\"\nL_FILE_NAME=$(ls -t *.deb | head -1)\nL_PKG_LOCATION=\"$PROJECT_DIR/Packages/$L_FILE_NAME\"\n\nscp \"$L_PKG_LOCATION\" root@ftp.unlimapps.com:/home/beta/deb/\nssh root@ftp.unlimapps.com \"/home/beta/scan.sh\"";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp\n\n#lets hack this shit into going into the beta server\ncd \"$PROJECT_DIR/Packages\"\nL_FILE_NAME=$(ls -t *.deb | head -1)\nL_PKG_LOCATION=\"$PROJECT_DIR/Packages/$L_FILE_NAME\"\n\nif [ \"$CONFIGURATION\" == \"Debug\" ]; then\necho \"DEBUG IS ON!\"\nfi\n\nif [ \"$CONFIGURATION\" == \"Release\" ]; then\necho \"RELEASE IS ON!\"\nfi\n\nif [ \"$CONFIGURATION\" == \"ReleaseRepo\" ]; then\necho \"RELEASE REPO IS ON!\"\n\ncontrol=\"${SRCROOT}/$PROJECT_NAME/Package/DEBIAN/control\"\nchangelog=\"${SRCROOT}/changelog.json\"\nfield=\"Package\"\npackageid=`perl -ne 'print $1 if /^'\"$field\"': *(.*) *$/' \"$control\"`\necho \"PACKAGE ID: $packageid\"\n/usr/local/bin/add_package_to_ua_beta \"$L_PKG_LOCATION\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -293,6 +293,62 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		471462A21BCE56B00035AC1A /* ReleaseRepo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = ReleaseRepo;
+		};
+		471462A31BCE56B00035AC1A /* ReleaseRepo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendors/MoPubSDKUA/AdNetworkSupport/Millennial/SDK",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "toneenabler/toneenabler-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/iOSOpenDev/lib,
+					"$(PROJECT_DIR)/Vendors/MoPubSDKUA/AdNetworkSupport/GoogleAdMob/SDK",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = ReleaseRepo;
+		};
 		47603BE41A035CAB0060B3EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -374,10 +430,10 @@
 				PROVISIONING_PROFILE = "";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
-				iOSOpenDevDevice = 192.168.1.19;
+				iOSOpenDevDevice = "";
 				iOSOpenDevInstallOnAnyBuild = NO;
 				iOSOpenDevInstallOnProfiling = YES;
-				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevRespringOnInstall = NO;
 				iOSOpenDevUsePackageVersionPList = YES;
 			};
 			name = Debug;
@@ -404,10 +460,10 @@
 				PROVISIONING_PROFILE = "";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
-				iOSOpenDevDevice = 192.168.1.19;
+				iOSOpenDevDevice = "";
 				iOSOpenDevInstallOnAnyBuild = NO;
 				iOSOpenDevInstallOnProfiling = YES;
-				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevRespringOnInstall = NO;
 				iOSOpenDevUsePackageVersionPList = YES;
 			};
 			name = Release;
@@ -420,6 +476,7 @@
 			buildConfigurations = (
 				47603BE41A035CAB0060B3EF /* Debug */,
 				47603BE51A035CAB0060B3EF /* Release */,
+				471462A21BCE56B00035AC1A /* ReleaseRepo */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -429,6 +486,7 @@
 			buildConfigurations = (
 				47603BE71A035CAB0060B3EF /* Debug */,
 				47603BE81A035CAB0060B3EF /* Release */,
+				471462A31BCE56B00035AC1A /* ReleaseRepo */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
