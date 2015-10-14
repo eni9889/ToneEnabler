@@ -19,7 +19,7 @@
 
 #include <logos/logos.h>
 #include <substrate.h>
-@class TKToneTableController; @class TKTonePickerController; 
+@class TKTonePickerController; @class TKToneTableController; 
 
 
 #line 19 "/Users/egjoka/Documents/OSProjects/ToneEnabler/toneenabler/toneenabler.xm"

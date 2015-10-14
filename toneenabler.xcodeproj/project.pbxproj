@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos";
+			shellScript = "L_PKG_VERSION_LOCATION=\"$PROJECT_DIR/$PROJECT_NAME/PackageVersion.plist\"\necho \"VERSION LOCATION: $L_PKG_VERSION_LOCATION\"\n\nif [ \"$CONFIGURATION\" == \"Debug\" ]; then\necho \"DEBUG IS ON!\"\n/usr/libexec/PlistBuddy -c \"Set :Stage 'b'\" \"$L_PKG_VERSION_LOCATION\"\nfi\n\nif [ \"$CONFIGURATION\" == \"Release\" ]; then\necho \"RELEASE IS ON!\"\n/usr/libexec/PlistBuddy -c \"Set :Stage 'r'\" \"$L_PKG_VERSION_LOCATION\"\nfi\n\nif [ \"$CONFIGURATION\" == \"ReleaseRepo\" ]; then\necho \"RELEASE REPO IS ON!\"\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print PackageRevision\" \"$L_PKG_VERSION_LOCATION\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :PackageRevision $buildNumber\" \"$L_PKG_VERSION_LOCATION\"\n/usr/libexec/PlistBuddy -c \"Set :Stage 'r'\" \"$L_PKG_VERSION_LOCATION\"\nfi\n\n/opt/iOSOpenDev/bin/iosod --xcbp-logos";
 		};
 		47603BCE1A035CAB0060B3EF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -339,11 +339,11 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
 				iOSOpenDevInstallOnAnyBuild = NO;
-				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevInstallOnProfiling = NO;
 				iOSOpenDevRespringOnInstall = NO;
 				iOSOpenDevUsePackageVersionPList = YES;
 			};
@@ -428,10 +428,10 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
-				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnAnyBuild = YES;
 				iOSOpenDevInstallOnProfiling = YES;
 				iOSOpenDevRespringOnInstall = NO;
 				iOSOpenDevUsePackageVersionPList = YES;
@@ -458,10 +458,10 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
-				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnAnyBuild = YES;
 				iOSOpenDevInstallOnProfiling = YES;
 				iOSOpenDevRespringOnInstall = NO;
 				iOSOpenDevUsePackageVersionPList = YES;
