@@ -109,17 +109,18 @@
 
 %ctor {
     
-    if (!NSClassFromString(@"TKTonePickerController") && !NSClassFromString(@"TKToneTableController")) {
-        //load the framework if it does not exist
-        dlopen(XPCObjects, RTLD_LAZY);
+    if (![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.mobilesafari"]) {
+        if (!NSClassFromString(@"TKTonePickerController") && !NSClassFromString(@"TKToneTableController")) {
+            //load the framework if it does not exist
+            dlopen(XPCObjects, RTLD_LAZY);
+        }
+        
+        if (NSClassFromString(@"TKTonePickerController")) {
+            NSLog(@"ToneEnabler iOS 8");
+            %init(IOS8);
+        } else if (NSClassFromString(@"TKToneTableController")) {
+            NSLog(@"ToneEnabler iOS 7");
+            %init(IOS7);
+        }
     }
-    
-    if (NSClassFromString(@"TKTonePickerController")) {
-        NSLog(@"ToneEnabler iOS 8");
-        %init(IOS8);
-    } else if (NSClassFromString(@"TKToneTableController")) {
-        NSLog(@"ToneEnabler iOS 7");
-        %init(IOS7);
-    }
-    
 }

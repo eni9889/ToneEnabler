@@ -1,16 +1,14 @@
 {
 	Filter = {
 		Executables = (
-			"Preferences",
-			"Contacts",
-			"MobilePhone"
-			);
+			Preferences,
+			Contacts,
+			MobilePhone,
+		);
 		Bundles = (
 			"com.apple.ToneKit",
-			"com.apple.UIKit",
 		);
-		Mode = "Any";
+		Mode = Any;
 	};
-
-	SupportsRoot = "1";
+	SupportsRoot = 1;
 }

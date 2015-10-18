@@ -116,17 +116,18 @@ static id _logos_method$IOS8$TKTonePickerController$_loadTonesFromPlistNamed$(TK
 
 static __attribute__((constructor)) void _logosLocalCtor_f67a23ac() {
     
-    if (!NSClassFromString(@"TKTonePickerController") && !NSClassFromString(@"TKToneTableController")) {
+    if (![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.mobilesafari"]) {
+        if (!NSClassFromString(@"TKTonePickerController") && !NSClassFromString(@"TKToneTableController")) {
+            
+            dlopen(XPCObjects, RTLD_LAZY);
+        }
         
-        dlopen(XPCObjects, RTLD_LAZY);
+        if (NSClassFromString(@"TKTonePickerController")) {
+            NSLog(@"ToneEnabler iOS 8");
+            {Class _logos_class$IOS8$TKTonePickerController = objc_getClass("TKTonePickerController"); MSHookMessageEx(_logos_class$IOS8$TKTonePickerController, @selector(_loadTonesFromPlistNamed:), (IMP)&_logos_method$IOS8$TKTonePickerController$_loadTonesFromPlistNamed$, (IMP*)&_logos_orig$IOS8$TKTonePickerController$_loadTonesFromPlistNamed$);}
+        } else if (NSClassFromString(@"TKToneTableController")) {
+            NSLog(@"ToneEnabler iOS 7");
+            {Class _logos_class$IOS7$TKToneTableController = objc_getClass("TKToneTableController"); MSHookMessageEx(_logos_class$IOS7$TKToneTableController, @selector(loadRingtonesFromPlist), (IMP)&_logos_method$IOS7$TKToneTableController$loadRingtonesFromPlist, (IMP*)&_logos_orig$IOS7$TKToneTableController$loadRingtonesFromPlist);}
+        }
     }
-    
-    if (NSClassFromString(@"TKTonePickerController")) {
-        NSLog(@"ToneEnabler iOS 8");
-        {Class _logos_class$IOS8$TKTonePickerController = objc_getClass("TKTonePickerController"); MSHookMessageEx(_logos_class$IOS8$TKTonePickerController, @selector(_loadTonesFromPlistNamed:), (IMP)&_logos_method$IOS8$TKTonePickerController$_loadTonesFromPlistNamed$, (IMP*)&_logos_orig$IOS8$TKTonePickerController$_loadTonesFromPlistNamed$);}
-    } else if (NSClassFromString(@"TKToneTableController")) {
-        NSLog(@"ToneEnabler iOS 7");
-        {Class _logos_class$IOS7$TKToneTableController = objc_getClass("TKToneTableController"); MSHookMessageEx(_logos_class$IOS7$TKToneTableController, @selector(loadRingtonesFromPlist), (IMP)&_logos_method$IOS7$TKToneTableController$loadRingtonesFromPlist, (IMP*)&_logos_orig$IOS7$TKToneTableController$loadRingtonesFromPlist);}
-    }
-    
 }
